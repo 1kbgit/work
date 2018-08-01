@@ -87,7 +87,7 @@ static void TextBoxKeyProcess(KeyEnum key)
         App.Data.PidOnOff = on;
         
         System.Device.DO.Pwm.Open(PwmChannel1);
-        Pid(); 
+        PidSystick100(); 
     }
     else if(dataPointer == &DutyRatio)
     {
