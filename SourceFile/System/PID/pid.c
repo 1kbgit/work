@@ -87,7 +87,7 @@ static void ErrValueCount(void)      //温度差距计算
         Pid.times1 ++;          //持续计时，记够一定（400）次数增加占空比
         if(Pid.times1 >= 400 )  {Pid.KI ++;Pid.times1 = 0;}
           
-        DutyRatio = Pid.KP*Pid.ErrValue + Pid.KI*(Pid.ErrValueSum/Pid.times);
+        DutyRatio = Pid.KP*Pid.ErrValue + Pid.KI*(Pid.ErrValueSum);
         if(DutyRatio>=Pid.MaxDutyRatio)  {DutyRatio=Pid.MaxDutyRatio;}
         if(DutyRatio<=0)    {DutyRatio = 1;}
     }
@@ -100,7 +100,7 @@ static void ErrValueCount(void)      //温度差距计算
             Pid.KI --;          //持续计时，记够一定（400）次数减少占空比
             if(Pid.KI<=0)   {Pid.KI = 1;Pid.times1 = 0;}  //防止占空比为0
         }
-        DutyRatio = Pid.KP*Pid.ErrValue + Pid.KI*(Pid.ErrValueSum/Pid.times);
+        DutyRatio = Pid.KP*Pid.ErrValue + Pid.KI*(Pid.ErrValueSum);
         if(DutyRatio>=Pid.MaxDutyRatio)  {DutyRatio=Pid.MaxDutyRatio;}
         if(DutyRatio<=0)    {DutyRatio = 1;}
     }
@@ -113,7 +113,7 @@ static void ErrValueCount(void)      //温度差距计算
             Pid.KI --;
             Pid.times1 = 0;
             if(Pid.KI<=0)    {DutyRatio = 1;}
-            DutyRatio = Pid.KP*Pid.ErrValue + Pid.KI*(Pid.ErrValueSum/Pid.times);
+            DutyRatio = Pid.KP*Pid.ErrValue + Pid.KI*(Pid.ErrValueSum);
             if(DutyRatio>=Pid.MaxDutyRatio)  {DutyRatio=Pid.MaxDutyRatio;}
             if(DutyRatio<=0)    {DutyRatio = 1;}
         }               
@@ -124,6 +124,19 @@ static void ErrValueCount(void)      //温度差距计算
 
 
 
+void InitPid(void)
+{
+	//Pid.KP = 6;
+	//Pid.KI = 0.95;
+	
+    
+	Pid.ErrValue = AppDataPointer->ErrValue;
+	Pid.KI = AppDataPointer->KI;
+    Pid.KP = AppDataPointer->KP;
+    
+    System.Device.DO.Pwm.SetParameter(PwmChannel1, 7200, 100, 0);
+	System.Device.Systick.Register(Systick100, PidSystick100);
+}
 
 
 

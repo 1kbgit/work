@@ -26,71 +26,7 @@ Project File Date:  07/30/2018
 
 <h2>Output:</h2>
 Build target 'Target 1'
-compiling logic.c...
-..\SourceFile\System\PID\pid.h(38): error:  #77-D: this declaration has no storage class or type specifier
-          ErrValue = App.Data.ErrValue;
-..\SourceFile\System\PID\pid.h(38): error:  #101: "ErrValue" has already been declared in the current scope
-          ErrValue = App.Data.ErrValue;
-..\SourceFile\System\PID\pid.h(38): error:  #65: expected a ";"
-          ErrValue = App.Data.ErrValue;
-..\SourceFile\System\PID\pid.h(43): error:  #65: expected a ";"
-         float *KI=App.Data.KI;
-..\SourceFile\System\PID\pid.h(46): error:  #65: expected a ";"
-        float *KP=App.Data.KP;
-..\SourceFile\App\logic.c: 0 warnings, 5 errors
-compiling pid.c...
-..\SourceFile\System\PID\pid.h(38): error:  #77-D: this declaration has no storage class or type specifier
-          ErrValue = App.Data.ErrValue;
-..\SourceFile\System\PID\pid.h(38): error:  #101: "ErrValue" has already been declared in the current scope
-          ErrValue = App.Data.ErrValue;
-..\SourceFile\System\PID\pid.h(38): error:  #65: expected a ";"
-          ErrValue = App.Data.ErrValue;
-..\SourceFile\System\PID\pid.h(43): error:  #65: expected a ";"
-         float *KI=App.Data.KI;
-..\SourceFile\System\PID\pid.h(46): error:  #65: expected a ";"
-        float *KP=App.Data.KP;
-..\SourceFile\System\PID\pid.c(63): error:  #513: a value of type "int" cannot be assigned to an entity of type "float *"
-          Pid.KP = 10;             //P系数为10；
-..\SourceFile\System\PID\pid.c(64): error:  #32: expression must have arithmetic type
-          DutyRatio = Pid.KP*Pid.ErrValue;  //占空比 
-..\SourceFile\System\PID\pid.c(69): error:  #513: a value of type "int" cannot be assigned to an entity of type "float *"
-          Pid.KP = 10;
-..\SourceFile\System\PID\pid.c(71): error:  #32: expression must have arithmetic type
-          DutyRatio = Pid.KP*Pid.ErrValue; 
-..\SourceFile\System\PID\pid.c(77): error:  #513: a value of type "int" cannot be assigned to an entity of type "float *"
-          Pid.KP = 10;         //P系数为10；
-..\SourceFile\System\PID\pid.c(81): error:  #32: expression must have arithmetic type
-          DutyRatio = Pid.KP*Pid.ErrValue + Pid.KI*Pid.ErrValue;
-..\SourceFile\System\PID\pid.c(81): error:  #32: expression must have arithmetic type
-          DutyRatio = Pid.KP*Pid.ErrValue + Pid.KI*Pid.ErrValue;
-..\SourceFile\System\PID\pid.c(86): error:  #513: a value of type "int" cannot be assigned to an entity of type "float *"
-          Pid.KP = 1;             //P系数为1；
-..\SourceFile\System\PID\pid.c(90): error:  #32: expression must have arithmetic type
-          DutyRatio = Pid.KP*Pid.ErrValue + Pid.KI*(Pid.ErrValueSum/Pid.times);
-..\SourceFile\System\PID\pid.c(90): error:  #136: struct "<unnamed>" has no field "times"
-          DutyRatio = Pid.KP*Pid.ErrValue + Pid.KI*(Pid.ErrValueSum/Pid.times);
-..\SourceFile\System\PID\pid.c(90): error:  #32: expression must have arithmetic type
-          DutyRatio = Pid.KP*Pid.ErrValue + Pid.KI*(Pid.ErrValueSum/Pid.times);
-..\SourceFile\System\PID\pid.c(96): error:  #513: a value of type "int" cannot be assigned to an entity of type "float *"
-          Pid.KP = 1;             //P系数为1；
-..\SourceFile\System\PID\pid.c(101): error:  #513: a value of type "int" cannot be assigned to an entity of type "float *"
-              if(Pid.KI<=0)   {Pid.KI = 1;Pid.times1 = 0;}  //防止占空比为0
-..\SourceFile\System\PID\pid.c(103): error:  #32: expression must have arithmetic type
-          DutyRatio = Pid.KP*Pid.ErrValue + Pid.KI*(Pid.ErrValueSum/Pid.times);
-..\SourceFile\System\PID\pid.c(103): error:  #136: struct "<unnamed>" has no field "times"
-          DutyRatio = Pid.KP*Pid.ErrValue + Pid.KI*(Pid.ErrValueSum/Pid.times);
-..\SourceFile\System\PID\pid.c(103): error:  #32: expression must have arithmetic type
-          DutyRatio = Pid.KP*Pid.ErrValue + Pid.KI*(Pid.ErrValueSum/Pid.times);
-..\SourceFile\System\PID\pid.c(109): error:  #513: a value of type "int" cannot be assigned to an entity of type "float *"
-          Pid.KP = 1;
-..\SourceFile\System\PID\pid.c(116): error:  #32: expression must have arithmetic type
-              DutyRatio = Pid.KP*Pid.ErrValue + Pid.KI*(Pid.ErrValueSum/Pid.times);
-..\SourceFile\System\PID\pid.c(116): error:  #136: struct "<unnamed>" has no field "times"
-              DutyRatio = Pid.KP*Pid.ErrValue + Pid.KI*(Pid.ErrValueSum/Pid.times);
-..\SourceFile\System\PID\pid.c(116): error:  #32: expression must have arithmetic type
-              DutyRatio = Pid.KP*Pid.ErrValue + Pid.KI*(Pid.ErrValueSum/Pid.times);
-..\SourceFile\System\PID\pid.c: 0 warnings, 25 errors
-".\Output\msOS.axf" - 30 Error(s), 0 Warning(s).
+".\Output\msOS.axf" - 0 Error(s), 0 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -109,7 +45,6 @@ Package Vendor: ARM
 
    * Component: ARM::CMSIS:CORE:3.40.0
       Source file:   CMSIS\UserCodeTemplates\ARM\ITM_Retarget.c
-Target not created.
 </pre>
 </body>
 </html>

@@ -26,7 +26,8 @@
 
 #ifndef __PID_H
 #define __PID_H
-#include"app.h"
+
+#include "system.h"
 
 #define Prescaler   App.Data.Prescaler
 #define Period      App.Data.Period 
@@ -34,16 +35,13 @@
 typedef struct 
 {
 
-		float ErrValue; //= App.Data.ErrValue;
-        ErrValue = App.Data.ErrValue;
+		float ErrValue; 
+        
 		
 		//int times;
-			int times1;
-
-       float *KI=App.Data.KI;
-
-        
-      float *KP=App.Data.KP;
+		int times1;
+        float KI;
+        float KP;
         
         int MaxDutyRatio;
         float ErrValueSum;
@@ -58,7 +56,7 @@ typedef struct
 extern PidStruct Pid;
 
 extern void PidSystick100(void);
-
+extern void InitPid(void);
 
     
 #endif 
