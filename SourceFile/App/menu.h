@@ -33,9 +33,7 @@
 typedef struct
 {
     Form LogoForm;
-    Form WorkForm;
     Form PidForm;
-    Form PortForm;
     Form * FocusFormPointer;
 }MenuStruct;
 

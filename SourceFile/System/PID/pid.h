@@ -36,19 +36,13 @@ typedef struct
 {
 
 		float ErrValue; 
-        
-		
-		//int times;
-		int times1;
-        float KI;
-        float KP;
-        
-        int MaxDutyRatio;
-        float ErrValueSum;
 
+		int times1;
+    float KI;
+    float KP;
         
-        //void (* KI)(&App.Data.KI)
-		//void (*Config)(DiModeEnum mode);
+    int MaxDutyRatio;
+    float ErrValueSum;
 
 
 }PidStruct;

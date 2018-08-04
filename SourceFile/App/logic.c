@@ -74,7 +74,7 @@ void LongSaveProcess(void)
 static void StopDefaultProcess(void)
 {
     App.Menu.FocusFormPointer->FocusTextBoxPointer = null;
-    App.Menu.FocusFormPointer = &App.Menu.WorkForm;
+    App.Menu.FocusFormPointer = &App.Menu.PidForm;
 }
 
 static void TextBoxKeyProcess(KeyEnum key)
@@ -179,7 +179,7 @@ void KeyProcess(KeyEnum key)
 static void AppSystick100(void)
 {
     //...
-  //Pid();
+  
 }
 
 static void InitLogic(void)
@@ -187,27 +187,21 @@ static void InitLogic(void)
     System.Device.Adc.Register(AdcChannel0, (ushort *)(&App.Data.Voltage));
     System.Device.Adc.Register(AdcChannel1, (ushort *)(&App.Data.Current));
     System.Device.Adc.Register(AdcTemperature, (ushort *)(&App.Data.Temperature));
-
-    
-    
     System.Device.Systick.Register(Systick100, AppSystick100);
    
-    
 }
 
 void LogicTask(void)
 {
- //   int i;
+    //int i;
     uint message;
     uint data; 
     InitLogic();
 
     App.Menu.FocusFormPointer = &App.Menu.LogoForm;     //页面焦点
-
     System.OS.DelayMs(200);
     
-    //高频感应加热设备扫频自检，获取谐振点
-    App.Menu.FocusFormPointer = &App.Menu.WorkForm;   
+    App.Menu.FocusFormPointer = &App.Menu.PidForm;   
     /*for(i = 0; i < 16; i++)
     {
         System.OS.DelayMs(100);
