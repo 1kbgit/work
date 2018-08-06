@@ -26,9 +26,17 @@
 
 #include"system.h"
 #include"pid.h"
-#include"app.h"
 
 PidStruct Pid;
+
+
+
+/*****注册传送数据****/
+static void Register(AdcChannelEnum channel, ushort * dataPointer)
+{
+    RegisterPointerBlock[channel] = dataPointer;
+}
+
 
 
 static void AdcReadTemp(void)   //adc读取温度
@@ -54,70 +62,27 @@ static void ErrValueCount(void)      //温度差距计算
     System.Device.DO.Pwm.SetParameter(PwmChannel1,Prescaler,Period,DutyRatio);
 
     System.Device.DO.Pwm.SetDutyRatio (PwmChannel1, DutyRatio);//设置占空比
-    AdcReadTemp();  //adc读取温度
-    ErrValueCount();     //温度差距计算
+
+
+    AdcReadTemp();      //adc读取温度
+    ErrValueCount();    //温度差距计算
 
     if(Pid.ErrValue>=10)     {DutyRatio =Pid.MaxDutyRatio;}  
-    else if(Pid.ErrValue>6&&Pid.ErrValue<10)          //如果温差在6-10；
+    else if 
     {
-        Pid.KP = 10;             //P系数为10；
-        DutyRatio = Pid.KP*Pid.ErrValue;  //占空比 
-        if(DutyRatio>=Pid.MaxDutyRatio)  {DutyRatio=Pid.MaxDutyRatio;}
-    }
-    else if(Pid.ErrValue>5&&Pid.ErrValue<=6)          //温差在5-6之间，对升温进行采样
-    {
-        Pid.KP = 10;
-        Pid.ErrValueSum =Pid.ErrValueSum + Pid.ErrValue;       //采样和
-        DutyRatio = Pid.KP*Pid.ErrValue; 
-        if(DutyRatio>=Pid.MaxDutyRatio)  {DutyRatio =Pid.MaxDutyRatio;}
+        DutyRatio = Pid.KP * Pid.ErrValue; 
+        if(DutyRatio>=Pid.MaxDutyRatio) {DutyRatio = Pid.MaxDutyRatio;}
+        Pid.ErrValueSum = Pid.ErrValue++;
+        
+        Pid.LastDutyRatio = DutyRatio;
+        if(Pid.ErrValue > 1)  {DutyRatio = Pid.KP * Pid.ErrValue + Pid.KI*Pid.ErrValueSum; }
+        else if(abs(Pid.ErrValue) <= 1)    {DutyRatio = Pid.LastDutyRatio;}
+        else    {DutyRatio = Pid.KP * Pid.ErrValue + Pid.KI*Pid.ErrValueSum;}
     }
 
-    else if(Pid.ErrValue>2&&Pid.ErrValue<= 5)      //温差在2-5之间
-    {
-        Pid.KP = 10;         //P系数为10；
-        Pid.times1 ++;              //持续计时，记够一定（400）次数增加占空比
-        if(Pid.times1 >= 400 )  {Pid.KI++;Pid.times1 = 0;}
-        
-        DutyRatio = Pid.KP*Pid.ErrValue + Pid.KI*Pid.ErrValue;
-        if(DutyRatio>=Pid.MaxDutyRatio)  {DutyRatio=Pid.MaxDutyRatio;}
-    }
-    else if(Pid.ErrValue>0.5&&Pid.ErrValue<=2)
-    {
-        Pid.KP = 1;             //P系数为1；
-        Pid.times1 ++;          //持续计时，记够一定（400）次数增加占空比
-        if(Pid.times1 >= 400 )  {Pid.KI ++;Pid.times1 = 0;}
-          
-        DutyRatio = Pid.KP*Pid.ErrValue + Pid.KI*(Pid.ErrValueSum);
-        if(DutyRatio>=Pid.MaxDutyRatio)  {DutyRatio=Pid.MaxDutyRatio;}
-        if(DutyRatio<=0)    {DutyRatio = 1;}
-    }
-    else if(Pid.ErrValue >= 0&&Pid.ErrValue <= 0.5)
-   {
-        Pid.KP = 1;             //P系数为1；
-        Pid.times1 ++;
-        if(Pid.times1 >= 200 )    
-        {
-            Pid.KI --;          //持续计时，记够一定（400）次数减少占空比
-            if(Pid.KI<=0)   {Pid.KI = 1;Pid.times1 = 0;}  //防止占空比为0
-        }
-        DutyRatio = Pid.KP*Pid.ErrValue + Pid.KI*(Pid.ErrValueSum);
-        if(DutyRatio>=Pid.MaxDutyRatio)  {DutyRatio=Pid.MaxDutyRatio;}
-        if(DutyRatio<=0)    {DutyRatio = 1;}
-    }
-    else if(Pid.ErrValue < 0)       //差距为负值，即温度高于设定温度
-    {
-        Pid.KP = 1;
-        Pid.times1 ++;
-        if(Pid.times1 >= 100 )    
-        {
-            Pid.KI --;
-            Pid.times1 = 0;
-            if(Pid.KI<=0)    {DutyRatio = 1;}
-            DutyRatio = Pid.KP*Pid.ErrValue + Pid.KI*(Pid.ErrValueSum);
-            if(DutyRatio>=Pid.MaxDutyRatio)  {DutyRatio=Pid.MaxDutyRatio;}
-            if(DutyRatio<=0)    {DutyRatio = 1;}
-        }               
-    }  
+
+    
+    
 
 	
 }
